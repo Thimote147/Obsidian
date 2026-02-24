@@ -5,69 +5,66 @@ tags:
   - learning-path
   - pre-security
 platform: TryHackMe
-type: map-of-content
+type: table-of-content
 status: in-progress
 url: https://tryhackme.com/path/outline/presecurity
-version: "2026-revamp"
+version: 2026-revamp
 total_modules: 7
 total_rooms: 31
 cssclasses:
-  - moc
+  - toc
 ---
-
-# 🗺️ MOC — TryHackMe: Pre-Security (New)
+# 🗺️ Table of Content — TryHackMe: Pre-Security (New)
 
 > [!info] About this Path
 > The **Pre-Security** learning path (revamped February 18, 2026) teaches the foundational technical knowledge needed to start in cybersecurity. It covers networking, the web, computer fundamentals, operating systems, software basics, and attacks & defenses — essential to both attack and defend any technology.
-
 ---
-
 ## 📚 Modules & Rooms
 
-### 🔐 Module 1 — Introduction to Cyber Security
-- [[01 - Offensive Security Intro]]
-- [[02 - Defensive Security Intro]]
-- [[03 - Careers in Cyber]]
+### 🔐 Module 1 — [[Introduction to Cyber Security]]
+1. [[Offensive Security Intro]]
+2. [[Defensive Security Intro]]
+3. [[Careers in Cyber]]
 
-### 🌐 Module 2 — Network Fundamentals
-- [[04 - What is Networking]]
-- [[05 - Intro to LAN]]
-- [[06 - OSI Model]]
-- [[07 - Packets and Frames]]
-- [[08 - Extending Your Network]]
+### 🌐 Module 2 — [[Network Fundamentals]]
+1. [[What is Networking?]]
+2. [[Intro to LAN]]
+3. [[OSI Model]]
+4. [[Packets and Frames]]
+5. [[Extending Your Network]]
 
-### 🌍 Module 3 — How The Web Works
-- [[09 - DNS in Detail]]
-- [[10 - HTTP in Detail]]
-- [[11 - How Websites Work]]
-- [[12 - Putting It All Together]]
+### 🌍 Module 3 — [[How The Web Works]]
+1. [[09 - DNS in Detail]]
+2. [[10 - HTTP in Detail]]
+3. [[11 - How Websites Work]]
+4. [[12 - Putting It All Together]]
 
-### 💻 Module 4 — Computer Fundamentals
-- [[13 - Inside a Computer System]]
-- [[14 - Computer Types]]
-- [[15 - Client-Server Basics]]
-- [[16 - Virtualisation Basics]]
-- [[17 - Cloud Computing Fundamentals]]
+### 💻 Module 4 — [[Computer Fundamentals]]
+1. [[13 - Inside a Computer System]]
+2. [[14 - Computer Types]]
+3. [[15 - Client-Server Basics]]
+4. [[16 - Virtualisation Basics]]
+5. [[17 - Cloud Computing Fundamentals]]
 
-### ⚙️ Module 5 — Operating Systems Basics
-- [[18 - Operating Systems Introduction]]
-- [[19 - Windows Basics]]
-- [[20 - Linux CLI Basics]]
-- [[21 - Windows CLI Basics]]
-- [[22 - Operating System Security]]
+### ⚙️ Module 5 — [[Operating Systems Basics]]
+1. [[18 - Operating Systems Introduction]]
+2. [[19 - Windows Basics]]
+3. [[20 - Linux CLI Basics]]
+4. [[21 - Windows CLI Basics]]
+5. [[22 - Operating System Security]]
 
-### 🧩 Module 6 — Software Basics
-- [[23 - Data Representation]]
-- [[24 - Data Encoding]]
-- [[25 - Python Simple Demo]]
-- [[26 - JavaScript Simple Demo]]
-- [[27 - Database SQL Basics]]
+### 🧩 Module 6 — [[Software Basics]]
+1. [[23 - Data Representation]]
+2. [[24 - Data Encoding]]
+3. [[25 - Python Simple Demo]]
+4. [[26 - JavaScript Simple Demo]]
+5. [[27 - Database SQL Basics]]
 
-### 🛡️ Module 7 — Attacks and Defenses
-- [[28 - The CIA Triad]]
-- [[29 - Cryptography Concepts]]
-- [[30 - Become a Hacker]]
-- [[31 - Become a Defender]]
+### 🛡️ Module 7 — [[Attacks and Defenses]]
+1. [[28 - The CIA Triad]]
+2. [[29 - Cryptography Concepts]]
+3. [[30 - Become a Hacker]]
+4. [[31 - Become a Defender]]
 
 ---
 
@@ -107,14 +104,14 @@ SORT file.name ASC
 
 | # | Room | Module | Status |
 |---|------|--------|--------|
-| 01 | [[01 - Offensive Security Intro]] | Intro to CyberSec | ⬜ |
-| 02 | [[02 - Defensive Security Intro]] | Intro to CyberSec | ⬜ |
-| 03 | [[03 - Careers in Cyber]] | Intro to CyberSec | ⬜ |
-| 04 | [[04 - What is Networking]] | Network Fundamentals | ⬜ |
-| 05 | [[05 - Intro to LAN]] | Network Fundamentals | ⬜ |
-| 06 | [[06 - OSI Model]] | Network Fundamentals | ⬜ |
-| 07 | [[07 - Packets and Frames]] | Network Fundamentals | ⬜ |
-| 08 | [[08 - Extending Your Network]] | Network Fundamentals | ⬜ |
+| 01 | [[Offensive Security Intro]] | Intro to CyberSec | ⬜ |
+| 02 | [[Defensive Security Intro]] | Intro to CyberSec | ⬜ |
+| 03 | [[Careers in Cyber]] | Intro to CyberSec | ⬜ |
+| 04 | [[What is Networking?]] | Network Fundamentals | ⬜ |
+| 05 | [[Intro to LAN]] | Network Fundamentals | ⬜ |
+| 06 | [[OSI Model]] | Network Fundamentals | ⬜ |
+| 07 | [[Packets and Frames]] | Network Fundamentals | ⬜ |
+| 08 | [[Extending Your Network]] | Network Fundamentals | ⬜ |
 | 09 | [[09 - DNS in Detail]] | How The Web Works | ⬜ |
 | 10 | [[10 - HTTP in Detail]] | How The Web Works | ⬜ |
 | 11 | [[11 - How Websites Work]] | How The Web Works | ⬜ |
