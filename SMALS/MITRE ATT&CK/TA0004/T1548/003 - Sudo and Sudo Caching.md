@@ -7,16 +7,16 @@ Platform: MacOS, Linux
 Executor: Shell
 Elevation Required: true
 tags:
-  - Privilege_Escalation
-  - Defense_Evasion
-  - T1548
-  - T1548_003
-  - Abuse_Elevation_Control_Mechanism
-  - Sudo_and_Sudo_Caching
-  - MacOS
+  - privilege-escalation
+  - defense-evasion
+  - t1548
+  - t1548.003
+  - abuse-elevation-control-mechanism
+  - sudo-and-sudo-caching
+  - macos
   - linux
   - shells
-  - Elevation_Required
+  - elevation-required
 ---
 
 ## Description
