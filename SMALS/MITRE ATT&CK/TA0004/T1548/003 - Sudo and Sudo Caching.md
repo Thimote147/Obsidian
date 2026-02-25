@@ -18,6 +18,8 @@ tags:
   - shells
   - elevation-required
 ---
+# Table of Content
+
 
 ## Description
 Adversaries may perform sudo caching and/or use the sudoers file to elevate privileges. Adversaries may replicate the behavior of the sudo caching vulnerability or manipulate the sudoers configuration to execute commands with elevated privileges.
@@ -119,7 +121,7 @@ description: Detects suspicious sudo command usage, sudoers file access, and pot
 references:
     - https://attack.mitre.org/techniques/T1548/003/
     - https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1548.003/T1548.003.md
-author: SMALS SOC
+author: Thimoté Fétu
 date: 2026/02/25
 modified: 2026/02/25
 tags:
