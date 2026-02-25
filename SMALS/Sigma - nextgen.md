@@ -1,4 +1,4 @@
-delete all sigma in prod and keep
+delete all sigma in prod and keep in common
 Migrate through servicenow
 Filter fields
 Check logs to find sigma rules ideas
