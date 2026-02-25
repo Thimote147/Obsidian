@@ -110,7 +110,6 @@ index=linux sourcetype=linux_secure sudo
 ```
 
 ---
-
 ## Mitigation Strategies
 
 1. **Restrict sudo privileges:** Only grant sudo access to trusted users and specific commands
@@ -122,7 +121,6 @@ index=linux sourcetype=linux_secure sudo
 7. **Regular reviews:** Periodically review sudoers configurations for unauthorized changes
 
 ---
-
 ## References
 - **MITRE ATT&CK:** [T1548.003 - Sudo and Sudo Caching](https://attack.mitre.org/techniques/T1548/003/)
 - **Atomic Red Team:** [T1548.003 Tests](https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1548.003/T1548.003.md)

@@ -11,14 +11,10 @@
             "id": "3b13ad66f74fe888",
             "type": "leaf",
             "state": {
-              "type": "markdown",
-              "state": {
-                "file": "SMALS/MITRE ATT&CK/TA0004/T1548/003 - Sudo and Sudo Caching.md",
-                "mode": "source",
-                "source": false
-              },
+              "type": "empty",
+              "state": {},
               "icon": "lucide-file",
-              "title": "003 - Sudo and Sudo Caching"
+              "title": "New tab"
             }
           }
         ]
@@ -100,8 +96,7 @@
         }
       }
     ],
-    "currentTab": 0,
-    "pinned": true
+    "currentTab": 0
   },
   "right": {
     "id": "9b491d11a333cb60",
