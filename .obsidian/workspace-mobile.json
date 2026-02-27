@@ -4,20 +4,37 @@
     "type": "split",
     "children": [
       {
-        "id": "a3f1d6ca9dfe548e",
+        "id": "0e9314322ce1dbdc",
         "type": "tabs",
         "children": [
           {
-            "id": "3b13ad66f74fe888",
+            "id": "b00a02e8d711ca71",
             "type": "leaf",
             "state": {
-              "type": "empty",
-              "state": {},
+              "type": "pdf",
+              "state": {
+                "file": "TryHackMe/Windows_Logging_Cheat_Sheet_ver_Oct_2016.pdf"
+              },
+              "icon": "lucide-file-text",
+              "title": "Windows_Logging_Cheat_Sheet_ver_Oct_2016"
+            }
+          },
+          {
+            "id": "4400269d636d25e5",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "SMALS/MITRE ATT&CK/MITRE ATT&CK.md",
+                "mode": "source",
+                "source": false
+              },
               "icon": "lucide-file",
-              "title": "New tab"
+              "title": "MITRE ATT&CK"
             }
           }
-        ]
+        ],
+        "currentTab": 1
       }
     ],
     "direction": "vertical"
@@ -45,7 +62,7 @@
         "state": {
           "type": "search",
           "state": {
-            "query": ".00",
+            "query": "Windows Event Logs",
             "matchingCase": false,
             "explainSearch": false,
             "collapseAll": false,
@@ -108,7 +125,7 @@
         "state": {
           "type": "backlink",
           "state": {
-            "file": "Cyber Security 101/Untitled/Defensive Security Intro.md",
+            "file": "SMALS/MITRE ATT&CK/MITRE ATT&CK.md",
             "collapseAll": false,
             "extraContext": false,
             "sortOrder": "alphabetical",
@@ -162,42 +179,42 @@
       "bases:Create new base": false
     }
   },
-  "active": "3b13ad66f74fe888",
+  "active": "4400269d636d25e5",
   "lastOpenFiles": [
+    "Windows Event Logs.md",
+    "TryHackMe/Windows_Logging_Cheat_Sheet_ver_Oct_2016.pdf",
+    "Untitled",
+    "TryHackMe/The Windows Logging Cheat Sheet.md",
+    "TryHackMe/Pre Security (New)/Attacks and Defenses/Become a Defender.md",
+    "SMALS/MITRE ATT&CK/TA0005/001/Clear Windows Event Logs.md",
+    "SMALS/MITRE ATT&CK/TA0007/T1033/System Owner-User Discovery.md",
+    "SMALS/MITRE ATT&CK/TA0004/T1548/003/Suspicious Sudo Usage and Configuration Access.yml.md",
+    "SMALS/MITRE ATT&CK/TA0007/TA0007 - Discovery.md",
+    "System Owner.md",
+    "System Owner/User Discovery.md",
+    "System Owner",
+    "SMALS/MITRE ATT&CK/TA0007/T1033",
+    "SMALS/MITRE ATT&CK/TA0007",
+    "SMALS/MITRE ATT&CK/MITRE ATT&CK.md",
+    "SMALS/Sigma - nextgen.md",
+    "SMALS/MITRE ATT&CK/TA0004/T1548/003/Sudo and Sudo Caching.md",
+    "SMALS/MITRE ATT&CK/TA0005/TA0005 - Defense Evasion.md",
     "SMALS/MITRE ATT&CK/TA0004/TA0004 - Privilege Escalation.md",
+    "SMALS/MITRE ATT&CK/TA0005/001",
+    "SMALS/MITRE ATT&CK/TA0005",
+    "TryHackMe/Cyber Security 101/CS101-43 - Introduction to SIEM.md",
     "SMALS/MITRE ATT&CK/TA0004/T1548/003 - Sudo and Sudo Caching.md",
     "SMALS/MITRE ATT&CK/TA0004",
-    "SMALS/Sigma - nextgen.md",
     "SMALS",
     "TryHackMe",
-    "SMALS/MITRE ATT&CK/TA0004/T1548",
-    "SMALS/MITRE ATT&CK/MITRE ATT&CK.md",
-    "MITRE ATT&CK/Untitled",
-    "SMALS/MITRE ATT&CK/TA0043",
-    "MITRE ATT&CK/T1006",
-    "MITRE ATT&CK/T1005",
-    "MITRE ATT&CK/T1003",
-    "MITRE ATT&CK/T1001",
     "TryHackMe/Cyber Security 101/Untitled/Defensive Security Intro.md",
     "TryHackMe/Cyber Security 101/Untitled/Search Skills.md",
-    "TryHackMe/Pre Security (New)/Attacks and Defenses/Become a Defender.md",
     "TryHackMe/Cyber Security 101/Untitled/Offensive Security Intro.md",
     "TryHackMe/Cyber Security 101/Cyber Security 101.md",
     "TryHackMe/Cyber Security 101/CS101-51 - Security Principles.md",
     "TryHackMe/Cyber Security 101/CS101-27 - Metasploit Exploitation.md",
     "TryHackMe/Cyber Security 101/CS101-06 - Linux Fundamentals Part 3.md",
     "TryHackMe/Pre Security (New)/Pre Security (New).md",
-    "TryHackMe/Pre Security (New)/Attacks and Defenses/Become a Hacker.md",
-    "TryHackMe/Pre Security (New)/Attacks and Defenses/Cryptography Concepts.md",
-    "TryHackMe/Pre Security (New)/Attacks and Defenses/The CIA Triad.md",
-    "TryHackMe/Pre Security (New)/Attacks and Defenses/Attacks and Defenses.md",
-    "28 - The CIA Triad.md",
-    "TryHackMe/Pre Security (New)/Software Basics/Database SQL Basics.md",
-    "TryHackMe/Pre Security (New)/Software Basics/JavaScript Simple Demo.md",
-    "TryHackMe/Pre Security (New)/Software Basics/Python Simple Demo.md",
-    "TryHackMe/Pre Security (New)/Software Basics/Data Encoding.md",
-    "TryHackMe/Pre Security (New)/Software Basics/Data Representation.md",
-    "TryHackMe/Pre Security (New)/Software Basics/Software Basics.md",
-    "TryHackMe/Pre Security (New)/Operating Systems Basics/Operating Systems Basics.md"
+    "TryHackMe/Pre Security (New)/Attacks and Defenses/Become a Hacker.md"
   ]
 }
