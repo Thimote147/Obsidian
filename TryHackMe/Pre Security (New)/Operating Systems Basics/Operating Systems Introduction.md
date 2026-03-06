@@ -106,4 +106,4 @@ tasklist            # Windows CMD
 
 ## 🔗 Related Notes
 - [[Windows Basics]] · [[Linux CLI Basics]] · [[Operating System Security]]
-- [[Kernel]] · [[Privilege Escalation]] · [[Linux]] · [[Windows]]
+- [[Kernel]] · [[Privilege Escalation]] · [[System Owner-User Discovery - Linux]] · [[System Owner-User Discovery - Windows]]

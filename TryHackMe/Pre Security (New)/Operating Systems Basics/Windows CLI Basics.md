@@ -159,4 +159,4 @@ Get-ChildItem -Recurse | Select-String "password" -ErrorAction SilentlyContinue
 
 ## 🔗 Related Notes
 - [[Windows Basics]] · [[Linux CLI Basics]] · [[Operating System Security]]
-- [[PowerShell]] · [[CMD]] · [[Windows]] · [[Post-Exploitation]] · [[Privilege Escalation]]
+- [[PowerShell]] · [[CMD]] · [[System Owner-User Discovery - Windows]] · [[Post-Exploitation]] · [[Privilege Escalation]]

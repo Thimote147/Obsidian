@@ -13,5 +13,7 @@ create doc confluence
 ---
 6. If a user gets five failed Login Attempts in 10 seconds, raise an alert for `Multiple Failed Login Attempts`
 7. If login is successful after multiple failed login attempts, raise an alert for Successful Login After multiple Login Attempts
-8. A rule is set to alert every time a user plugs in a USB (Useful if USB is restricted as per the company policy)
-9. If outbound traffic is > 25 MB, raise an alert to potential data exfiltration Attempt (Usually, it depends on the company policy)
+8. If outbound traffic is > 25 MB, raise an alert to potential data exfiltration Attempt (Usually, it depends on the company policy) **very interesting to implement**
+
+
+Toujours aller voir les règles existantes auprès de la communauté (nextron system)

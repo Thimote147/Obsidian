@@ -180,4 +180,4 @@ passwd              # Change password
 
 ## 🔗 Related Notes
 - [[Windows CLI Basics]] · [[Operating System Security]] · [[Operating Systems Introduction]]
-- [[Linux]] · [[Linux Permissions]] · [[Privilege Escalation]] · [[SUID]] · [[Bash]]
+- [[System Owner-User Discovery - Linux]] · [[Linux Permissions]] · [[Privilege Escalation]] · [[SUID]] · [[Bash]]
