@@ -197,12 +197,17 @@ def load_sigma_rules(sigma_dir):
 # ═══════════════════════════════════════════════════════════════════════════════
 
 def cell_style(count):
-    """Return (background_color, text_color) based on rule count."""
-    if count == 0: return "#2d2d3a", "#555"
-    if count == 1: return "#7b6000", "#ffd54f"
-    if count <= 3: return "#1b5e20", "#a5d6a7"
-    if count <= 6: return "#2e7d32", "#c8e6c9"
-    return                "#1565c0", "#bbdefb"
+    """Return (background_color, text_color) based on rule count.
+    Gradient: red (1 rule) → yellow → green (10+ rules).
+    """
+    if count == 0:
+        return "#2d2d3a", "#555"
+    # Interpolate hue 0° (red) → 120° (green), capped at 10 rules
+    t   = min(count, 10) / 10          # 0.0 … 1.0
+    hue = int(t * 120)                 # 0 (red) … 120 (green)
+    bg  = f"hsl({hue}, 65%, 22%)"
+    fg  = f"hsl({hue}, 100%, 72%)"
+    return bg, fg
 
 
 def coverage_stats(techniques, coverage):
@@ -302,11 +307,12 @@ def generate_html(tactics, techniques, coverage, cves, sigma_dir, total_rules, e
 
     # ── Legend ───────────────────────────────────────────────────────────────
     legend_items = [
-        ("#2d2d3a", "#555",    "No coverage"),
-        ("#7b6000", "#ffd54f", "1 rule"),
-        ("#1b5e20", "#a5d6a7", "2–3 rules"),
-        ("#2e7d32", "#c8e6c9", "4–6 rules"),
-        ("#1565c0", "#bbdefb", "7+ rules"),
+        ("#2d2d3a",          "#555",              "No coverage"),
+        ("hsl(0, 65%, 22%)",  "hsl(0, 100%, 72%)",   "1 rule"),
+        ("hsl(30, 65%, 22%)", "hsl(30, 100%, 72%)",  "2–3 rules"),
+        ("hsl(60, 65%, 22%)", "hsl(60, 100%, 72%)",  "4–6 rules"),
+        ("hsl(90, 65%, 22%)", "hsl(90, 100%, 72%)",  "7–9 rules"),
+        ("hsl(120, 65%, 22%)","hsl(120, 100%, 72%)", "10+ rules"),
     ]
     legend_html = "".join(
         f'<div class="legend-item">'
