@@ -1,0 +1,16 @@
+- [Website](https://attack.mitre.org)
+# Table of Content
+1. [[Reconnaissance (TA0043)]]
+2. [[Resource Development (TA0042)]]
+3. [[Initial Access (TA0001)]]
+4. [[Execution (TA0002)]]
+5. [[Persistence (TA0003)]]
+6. [[Privilege Escalation (TA0004)]]
+7. [[Defense Evasion (TA0005)]]
+8. [[Credential Access (TA0006)]]
+9. [[Discovery (TA0007)]]
+10. [[Lateral Movement (TA0008)]]
+11. [[Collection (TA0009)]]
+12. [[Command and Control (TA0011)]]
+13. [[Exfiltration (TA0010)]]
+14. [[Impact (TA0040)]]
