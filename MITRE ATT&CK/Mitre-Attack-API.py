@@ -201,10 +201,10 @@ def load_sigma_rules(sigma_dir):
 def cell_style(count):
     """Return (background_color, text_color) based on rule count."""
     if count == 0: return "#2d2d3a", "#555"
-    if count == 1: return "#7b6000", "#ffd54f"
-    if count <= 3: return "#1b5e20", "#a5d6a7"
-    if count <= 6: return "#2e7d32", "#c8e6c9"
-    return                "#1565c0", "#bbdefb"
+    if count == 1: return "#7f1d1d", "#fca5a5"
+    if count <= 3: return "#7c2d12", "#fb923c"
+    if count <= 6: return "#3b4a14", "#bef264"
+    return                "#14532d", "#86efac"
 
 
 def coverage_stats(techniques, coverage):
@@ -258,7 +258,6 @@ def generate_html(tactics, techniques, coverage, cves, sigma_dir, total_rules, e
         tip      = _tooltip(st["id"], st["name"], coverage[st["id"]])
         interactive = (
             f' data-tid="{st["id"]}" data-name="{name_esc}" data-clickable="1"'
-            f' onclick="showRulesPanel(this)"'
         ) if count > 0 else ""
         return (
             f'<div class="subtechnique" style="background:{bg};color:{fg}" title="{tip}"{interactive}>'
@@ -277,7 +276,6 @@ def generate_html(tactics, techniques, coverage, cves, sigma_dir, total_rules, e
         tip      = _tooltip(tid, tech["name"], rules)
         interactive = (
             f' data-tid="{tid}" data-name="{name_esc}" data-clickable="1"'
-            f' onclick="showRulesPanel(this)"'
         ) if count > 0 else ""
         sub_html = ""
         if tid in subtechs:
@@ -315,10 +313,10 @@ def generate_html(tactics, techniques, coverage, cves, sigma_dir, total_rules, e
     # ── Legend ───────────────────────────────────────────────────────────────
     legend_items = [
         ("#2d2d3a", "#555",    "No coverage"),
-        ("#7b6000", "#ffd54f", "1 rule"),
-        ("#1b5e20", "#a5d6a7", "2–3 rules"),
-        ("#2e7d32", "#c8e6c9", "4–6 rules"),
-        ("#1565c0", "#bbdefb", "7+ rules"),
+        ("#7f1d1d", "#fca5a5", "1 rule"),
+        ("#7c2d12", "#fb923c", "2–3 rules"),
+        ("#3b4a14", "#bef264", "4–6 rules"),
+        ("#14532d", "#86efac", "7+ rules"),
     ]
     legend_html = "".join(
         f'<div class="legend-item">'
@@ -534,7 +532,7 @@ def generate_html(tactics, techniques, coverage, cves, sigma_dir, total_rules, e
       <div class="ptid" id="panel-tid"></div>
       <div class="pname" id="panel-name"></div>
     </div>
-    <button class="rule-panel-close" onclick="closeRulesPanel()">&#x2715;</button>
+    <button class="rule-panel-close" id="panel-close-btn">&#x2715;</button>
   </div>
   <div class="rule-panel-body">
     <div class="rule-count" id="panel-count"></div>
@@ -542,44 +540,63 @@ def generate_html(tactics, techniques, coverage, cves, sigma_dir, total_rules, e
   </div>
 </div>
 
+<script type="application/json" id="tech-rules-data">{rules_js}</script>
+
 <script>
-const TECH_RULES = {rules_js};
+(function() {{
+  var TECH_RULES = {{}};
+  try {{
+    TECH_RULES = JSON.parse(document.getElementById('tech-rules-data').textContent);
+  }} catch(e) {{ console.error('TECH_RULES parse error', e); }}
 
-function showRulesPanel(el) {{
-  const tid   = el.dataset.tid;
-  const name  = el.dataset.name;
-  const rules = TECH_RULES[tid];
-  if (!rules || rules.length === 0) return;
-  document.getElementById('panel-tid').textContent   = tid;
-  document.getElementById('panel-name').textContent  = name;
-  document.getElementById('panel-count').textContent = rules.length + ' rule' + (rules.length !== 1 ? 's' : '');
-  const list = document.getElementById('panel-rules-list');
-  list.innerHTML = '';
-  rules.forEach(([rid, rname]) => {{
-    const li = document.createElement('li');
-    li.className = 'rule-item';
-    const esc = s => s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
-    li.innerHTML = (rid ? '<div class="rid">' + esc(rid) + '</div>' : '') +
-                   '<div class="rname">' + esc(rname) + '</div>';
-    list.appendChild(li);
+  var panel = document.getElementById('rule-panel');
+
+  document.getElementById('panel-close-btn').addEventListener('click', function() {{
+    panel.classList.remove('open');
   }});
-  document.getElementById('rule-panel').classList.add('open');
-}}
 
-function closeRulesPanel() {{
-  document.getElementById('rule-panel').classList.remove('open');
-}}
-
-function filterMatrix(query) {{
-  query = query.toLowerCase().trim();
-  const hideEmpty = document.getElementById('hide-empty').checked;
-  document.querySelectorAll('.technique').forEach(el => {{
-    const text    = el.innerText.toLowerCase();
-    const count   = parseInt(el.querySelector('.badge')?.textContent || '0');
-    const matches = (!query || text.includes(query)) && (!hideEmpty || count > 0);
-    el.classList.toggle('hidden', !matches);
+  document.addEventListener('click', function(e) {{
+    var el = e.target.closest('[data-clickable]');
+    if (el) {{
+      e.stopPropagation();
+      var tid   = el.dataset.tid;
+      var name  = el.dataset.name;
+      var rules = TECH_RULES[tid];
+      if (!rules || rules.length === 0) return;
+      document.getElementById('panel-tid').textContent   = tid;
+      document.getElementById('panel-name').textContent  = name;
+      document.getElementById('panel-count').textContent = rules.length + ' rule' + (rules.length !== 1 ? 's' : '');
+      var list = document.getElementById('panel-rules-list');
+      list.innerHTML = '';
+      rules.forEach(function(r) {{
+        var rid = r[0], rname = r[1];
+        var li = document.createElement('li');
+        li.className = 'rule-item';
+        var esc = function(s) {{ return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }};
+        li.innerHTML = (rid ? '<div class="rid">' + esc(rid) + '</div>' : '') +
+                       '<div class="rname">' + esc(rname) + '</div>';
+        list.appendChild(li);
+      }});
+      panel.classList.add('open');
+      return;
+    }}
+    if (!panel.contains(e.target)) {{
+      panel.classList.remove('open');
+    }}
   }});
-}}
+
+  function filterMatrix(query) {{
+    query = query.toLowerCase().trim();
+    var hideEmpty = document.getElementById('hide-empty').checked;
+    document.querySelectorAll('.technique').forEach(function(el) {{
+      var text    = el.innerText.toLowerCase();
+      var count   = parseInt(el.querySelector('.badge') ? el.querySelector('.badge').textContent : '0');
+      var matches = (!query || text.includes(query)) && (!hideEmpty || count > 0);
+      el.classList.toggle('hidden', !matches);
+    }});
+  }}
+  window.filterMatrix = filterMatrix;
+}})();
 </script>
 </body>
 </html>"""
