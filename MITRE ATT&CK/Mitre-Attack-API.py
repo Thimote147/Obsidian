@@ -171,13 +171,15 @@ def load_sigma_rules(sigma_dir):
             rule = next((d for d in docs if isinstance(d, dict)), None)
             if not rule:
                 continue
+            rule_id   = str(rule.get("id", "")).strip()
             rule_name = rule.get("title", yml_file.stem)
+            rule_entry = (rule_id, rule_name)
             for tag in rule.get("tags", []) or []:
                 tag = str(tag).lower().strip()
                 # attack.tXXXX  or  attack.tXXXX.XXX
                 if re.match(r"^attack\.t\d{4}(\.\d{3})?$", tag):
                     tech_id = tag[len("attack."):].upper()
-                    coverage[tech_id].append(rule_name)
+                    coverage[tech_id].append(rule_entry)
                 # attack.tactic_name  →  initial_access, defense_evasion, …
                 elif tag.startswith("attack."):
                     tactic = tag[len("attack."):].replace("_", "-")
@@ -185,7 +187,7 @@ def load_sigma_rules(sigma_dir):
                 # cve.YYYY-NNNNN
                 elif re.match(r"^cve\.\d{4}-\d+$", tag):
                     cve_id = "CVE-" + tag[4:].upper()
-                    cves[cve_id].append(rule_name)
+                    cves[cve_id].append(rule_entry)
         except Exception:
             errors += 1
 
@@ -242,7 +244,9 @@ def generate_html(tactics, techniques, coverage, cves, sigma_dir, total_rules, e
     def _tooltip(tid, name, rules):
         tip = f"{tid}: {name}\nRules ({len(rules)}):"
         for r in rules[:15]:
-            tip += f"\n  • {r}"
+            rid, rname = r
+            prefix = f"[{rid[:8]}] " if rid else ""
+            tip += f"\n  • {prefix}{rname}"
         if len(rules) > 15:
             tip += f"\n  … and {len(rules) - 15} more"
         return html_lib.escape(tip)
@@ -252,8 +256,12 @@ def generate_html(tactics, techniques, coverage, cves, sigma_dir, total_rules, e
         bg, fg   = cell_style(count)
         name_esc = html_lib.escape(st["name"])
         tip      = _tooltip(st["id"], st["name"], coverage[st["id"]])
+        interactive = (
+            f' data-tid="{st["id"]}" data-name="{name_esc}" data-clickable="1"'
+            f' onclick="showRulesPanel(this)"'
+        ) if count > 0 else ""
         return (
-            f'<div class="subtechnique" style="background:{bg};color:{fg}" title="{tip}">'
+            f'<div class="subtechnique" style="background:{bg};color:{fg}" title="{tip}"{interactive}>'
             f'<span class="tid">{st["id"]}</span>'
             f'<span class="sname">{name_esc}</span>'
             f'<span class="badge">{count}</span>'
@@ -267,6 +275,10 @@ def generate_html(tactics, techniques, coverage, cves, sigma_dir, total_rules, e
         bg, fg   = cell_style(count)
         name_esc = html_lib.escape(tech["name"])
         tip      = _tooltip(tid, tech["name"], rules)
+        interactive = (
+            f' data-tid="{tid}" data-name="{name_esc}" data-clickable="1"'
+            f' onclick="showRulesPanel(this)"'
+        ) if count > 0 else ""
         sub_html = ""
         if tid in subtechs:
             sub_html = (
@@ -275,7 +287,7 @@ def generate_html(tactics, techniques, coverage, cves, sigma_dir, total_rules, e
                 + "</div>"
             )
         return (
-            f'<div class="technique" style="background:{bg};color:{fg}" title="{tip}">'
+            f'<div class="technique" style="background:{bg};color:{fg}" title="{tip}"{interactive}>'
             f'<div class="tech-header">'
             f'<span class="tid">{tid}</span>'
             f'<span class="tname">{name_esc}</span>'
@@ -320,7 +332,7 @@ def generate_html(tactics, techniques, coverage, cves, sigma_dir, total_rules, e
     if cves:
         cve_rows = "".join(
             f'<tr><td><code>{cve_id}</code></td><td>{len(rules)}</td>'
-            f'<td>{html_lib.escape(", ".join(rules[:5]))}'
+            f'<td>{html_lib.escape(", ".join(r[1] for r in rules[:5]))}'
             f'{"…" if len(rules) > 5 else ""}</td></tr>'
             for cve_id, rules in sorted(cves.items())
         )
@@ -332,6 +344,14 @@ def generate_html(tactics, techniques, coverage, cves, sigma_dir, total_rules, e
             f'<tbody>{cve_rows}</tbody>'
             f'</table></div>'
         )
+
+    # Build JS rules lookup: {tid: [[rule_id, rule_name], ...]}
+    rules_js_data = {
+        tid: [[r[0], r[1]] for r in rules]
+        for tid, rules in coverage.items()
+        if rules and tid in techniques
+    }
+    rules_js = json.dumps(rules_js_data, ensure_ascii=False)
 
     html_content = f"""<!DOCTYPE html>
 <html lang="en">
@@ -436,6 +456,34 @@ def generate_html(tactics, techniques, coverage, cves, sigma_dir, total_rules, e
   ::-webkit-scrollbar {{ height: 6px; width: 6px; }}
   ::-webkit-scrollbar-track {{ background: #12121e; }}
   ::-webkit-scrollbar-thumb {{ background: #333; border-radius: 3px; }}
+  .technique[data-clickable], .subtechnique[data-clickable] {{ cursor: pointer; }}
+  .rule-panel {{
+    position: fixed; right: 0; top: 0; width: 400px; height: 100vh;
+    background: #1a1a2e; border-left: 2px solid #e94560;
+    box-shadow: -6px 0 24px rgba(0,0,0,.6);
+    z-index: 1000; display: flex; flex-direction: column;
+    transform: translateX(100%); transition: transform .25s ease;
+  }}
+  .rule-panel.open {{ transform: translateX(0); }}
+  .rule-panel-header {{
+    padding: 14px 16px; background: linear-gradient(135deg, #16213e, #0f3460);
+    border-bottom: 1px solid #e94560; position: sticky; top: 0;
+    display: flex; align-items: flex-start; justify-content: space-between; gap: 10px;
+  }}
+  .rule-panel-title .ptid {{ font-size: .78rem; color: #e94560; font-weight: 700; font-family: monospace; }}
+  .rule-panel-title .pname {{ font-size: .88rem; color: #e0e0e0; margin-top: 3px; line-height: 1.3; }}
+  .rule-panel-close {{
+    background: none; border: 1px solid #555; color: #aaa; border-radius: 4px;
+    width: 26px; height: 26px; cursor: pointer; font-size: 14px; flex-shrink: 0;
+    display: flex; align-items: center; justify-content: center;
+  }}
+  .rule-panel-close:hover {{ border-color: #e94560; color: #e94560; }}
+  .rule-panel-body {{ padding: 14px 16px; overflow-y: auto; flex: 1; }}
+  .rule-count {{ font-size: .73rem; color: #888; margin-bottom: 10px; text-transform: uppercase; letter-spacing: .5px; }}
+  .rule-list {{ list-style: none; display: flex; flex-direction: column; gap: 7px; }}
+  .rule-item {{ background: #0f3460; border-radius: 6px; padding: 8px 12px; border-left: 3px solid #e94560; }}
+  .rule-item .rid {{ font-family: "SF Mono","Fira Code",monospace; font-size: .62rem; color: #777; word-break: break-all; margin-bottom: 3px; }}
+  .rule-item .rname {{ font-size: .8rem; color: #ddd; line-height: 1.35; }}
 </style>
 </head>
 <body>
@@ -480,7 +528,48 @@ def generate_html(tactics, techniques, coverage, cves, sigma_dir, total_rules, e
 
 {cve_html}
 
+<div id="rule-panel" class="rule-panel">
+  <div class="rule-panel-header">
+    <div class="rule-panel-title">
+      <div class="ptid" id="panel-tid"></div>
+      <div class="pname" id="panel-name"></div>
+    </div>
+    <button class="rule-panel-close" onclick="closeRulesPanel()">&#x2715;</button>
+  </div>
+  <div class="rule-panel-body">
+    <div class="rule-count" id="panel-count"></div>
+    <ul class="rule-list" id="panel-rules-list"></ul>
+  </div>
+</div>
+
 <script>
+const TECH_RULES = {rules_js};
+
+function showRulesPanel(el) {{
+  const tid   = el.dataset.tid;
+  const name  = el.dataset.name;
+  const rules = TECH_RULES[tid];
+  if (!rules || rules.length === 0) return;
+  document.getElementById('panel-tid').textContent   = tid;
+  document.getElementById('panel-name').textContent  = name;
+  document.getElementById('panel-count').textContent = rules.length + ' rule' + (rules.length !== 1 ? 's' : '');
+  const list = document.getElementById('panel-rules-list');
+  list.innerHTML = '';
+  rules.forEach(([rid, rname]) => {{
+    const li = document.createElement('li');
+    li.className = 'rule-item';
+    const esc = s => s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+    li.innerHTML = (rid ? '<div class="rid">' + esc(rid) + '</div>' : '') +
+                   '<div class="rname">' + esc(rname) + '</div>';
+    list.appendChild(li);
+  }});
+  document.getElementById('rule-panel').classList.add('open');
+}}
+
+function closeRulesPanel() {{
+  document.getElementById('rule-panel').classList.remove('open');
+}}
+
 function filterMatrix(query) {{
   query = query.toLowerCase().trim();
   const hideEmpty = document.getElementById('hide-empty').checked;
@@ -556,10 +645,35 @@ def generate_markdown(tactics, techniques, coverage, cves, sigma_dir, total_rule
 
         lines.append("")
 
+        # Rules detail — collapsible block for covered techniques in this tactic
+        covered_techs = [t for t in techs if coverage[t["id"]] or any(coverage[s["id"]] for s in subtechs.get(t["id"], []))]
+        if covered_techs:
+            lines += [
+                "<details>",
+                f"<summary>Rules detail ({sum(1 for t in techs if coverage[t['id']])} techniques covered)</summary>",
+                "",
+            ]
+            for t in covered_techs:
+                rules = coverage[t["id"]]
+                if rules:
+                    lines.append(f"**`{t['id']}`** {t['name']}")
+                    for rid, rname in rules:
+                        id_part = f"`{rid}` — " if rid else ""
+                        lines.append(f"- {id_part}{rname}")
+                for st in subtechs.get(t["id"], []):
+                    st_rules = coverage[st["id"]]
+                    if st_rules:
+                        lines.append(f"  **`{st['id']}`** ↳ {st['name']}")
+                        for rid, rname in st_rules:
+                            id_part = f"`{rid}` — " if rid else ""
+                            lines.append(f"  - {id_part}{rname}")
+                lines.append("")
+            lines += ["</details>", ""]
+
     if cves:
         lines += ["## CVE Coverage", "", "| CVE | Rules | Rule Titles |", "|-----|-------|-------------|"]
         for cve_id, rules in sorted(cves.items()):
-            rule_str = ", ".join(f"`{r}`" for r in rules[:3])
+            rule_str = ", ".join(f"`{r[1]}`" for r in rules[:3])
             if len(rules) > 3:
                 rule_str += f" +{len(rules) - 3} more"
             lines.append(f"| {cve_id} | {len(rules)} | {rule_str} |")
